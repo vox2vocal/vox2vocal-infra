@@ -11,6 +11,15 @@ minikube 기반 로컬 Kubernetes 실행 구성을 담고 있습니다.
 - `postgres`: PostgreSQL
 - `redis`: Redis
 
+## 데이터 저장소 이미지
+
+로컬 Kubernetes 구성은 장기 지원과 재현성을 위해 고정 버전 이미지를 사용합니다.
+
+| 리소스 | 이미지 |
+| --- | --- |
+| `postgres` | `postgres:17.10-alpine` |
+| `redis` | `redis:7.2.14-alpine3.21` |
+
 ## minikube 설치
 
 https://minikube.sigs.k8s.io/docs/start 참고
