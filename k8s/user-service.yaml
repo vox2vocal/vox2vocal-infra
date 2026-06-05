@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: abyul
+spec:
+  selector:
+    app: user-service
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: abyul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: abyul/user-service:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3002
+            - containerPort: 50051
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: abyul-config
+                  key: NODE_ENV
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: abyul-config
+                  key: USER_SERVICE_HTTP_PORT
+            - name: GRPC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: abyul-config
+                  key: USER_SERVICE_GRPC_BIND_URL
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: abyul-secret
+                  key: DATABASE_URL
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 10
