@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: abyul-config
-  namespace: abyul
+  name: vox2vocal-config
+  namespace: vox2vocal
 data:
   NODE_ENV: development
   BFF_PORT: "4000"

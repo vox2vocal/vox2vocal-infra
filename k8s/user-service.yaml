@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: user-service
-  namespace: abyul
+  namespace: vox2vocal
 spec:
   selector:
     app: user-service
@@ -18,7 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-service
-  namespace: abyul
+  namespace: vox2vocal
 spec:
   replicas: 1
   selector:
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: abyul/user-service:local
+          image: vox2vocal/user-service:local
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3002
@@ -40,22 +40,22 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: NODE_ENV
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: USER_SERVICE_HTTP_PORT
             - name: GRPC_URL
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: USER_SERVICE_GRPC_BIND_URL
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: abyul-secret
+                  name: vox2vocal-secret
                   key: DATABASE_URL
           readinessProbe:
             httpGet:

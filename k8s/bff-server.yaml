@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: bff-server
-  namespace: abyul
+  namespace: vox2vocal
 spec:
   selector:
     app: bff-server
@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bff-server
-  namespace: abyul
+  namespace: vox2vocal
 spec:
   replicas: 1
   selector:
@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: bff-server
-          image: abyul/bff-server:local
+          image: vox2vocal/bff-server:local
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
@@ -36,17 +36,17 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: NODE_ENV
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: BFF_PORT
             - name: API_GATEWAY_GRPC_URL
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: API_GATEWAY_GRPC_URL
           readinessProbe:
             httpGet:

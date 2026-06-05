@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: abyul-ingress
-  namespace: abyul
+  name: vox2vocal-ingress
+  namespace: vox2vocal
 spec:
   ingressClassName: nginx
   rules:
-    - host: abyul.local
+    - host: vox2vocal.local
       http:
         paths:
           - path: /

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: worker
-  namespace: abyul
+  namespace: vox2vocal
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: abyul/worker:local
+          image: vox2vocal/worker:local
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3003
@@ -23,22 +23,22 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: NODE_ENV
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: WORKER_PORT
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: abyul-config
+                  name: vox2vocal-config
                   key: REDIS_PORT
           readinessProbe:
             httpGet:
