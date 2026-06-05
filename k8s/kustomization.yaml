@@ -6,6 +6,7 @@ resources:
   - secret.yaml
   - postgres.yaml
   - redis.yaml
+  - nats.yaml
   - bff-server.yaml
   - api-gateway.yaml
   - user-service.yaml
