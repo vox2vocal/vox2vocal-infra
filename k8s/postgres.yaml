@@ -4,11 +4,12 @@ metadata:
   name: postgres
   namespace: vox2vocal
 spec:
+  type: LoadBalancer
   selector:
     app: postgres
   ports:
     - name: postgres
-      port: 5432
+      port: 15432
       targetPort: 5432
 ---
 apiVersion: apps/v1
