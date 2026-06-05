@@ -11,6 +11,29 @@ minikube 기반 로컬 Kubernetes 실행 구성을 담고 있습니다.
 - `postgres`: PostgreSQL
 - `redis`: Redis
 
+## minikube 설치
+
+https://minikube.sigs.k8s.io/docs/start 참고
+
+### Windows (winget)
+
+```bash
+winget install Kubernetes.minikube
+```
+
+### Mac
+
+```bash
+brew install minikube
+```
+
+brew를 통해 설치한 후 오류가 발생하는 경우 which minikube, 기존 minikube 링크를 제거하고 새로 설치한 바이너리를 연결해야 할 수 있습니다.
+
+```
+brew unlink minikube
+brew link minikube
+```
+
 ## minikube 실행 순서
 
 ```bash
