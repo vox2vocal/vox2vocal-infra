@@ -11,4 +11,5 @@ resources:
   - api-gateway.yaml
   - user-service.yaml
   - worker.yaml
+  - engine-audio-ingest.yaml
   - ingress.yaml
