@@ -90,9 +90,70 @@ spec:
               value: "48000"
             - name: CANONICAL_CHANNELS
               value: "1"
+            - name: LOG_FORMAT
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: LOG_FORMAT
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: LOG_LEVEL
+            - name: LOG_SCHEMA_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: LOG_SCHEMA_VERSION
+            - name: TRACE_PROPAGATION_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: TRACE_PROPAGATION_ENABLED
+            - name: LOKI_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: LOKI_URL
+            - name: OTEL_SERVICE_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OTEL_SERVICE_NAMESPACE
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: OTEL_TRACES_EXPORTER
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OTEL_TRACES_EXPORTER
+            - name: OTEL_METRICS_EXPORTER
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OTEL_METRICS_EXPORTER
+            - name: OTEL_LOGS_EXPORTER
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OTEL_LOGS_EXPORTER
           volumeMounts:
             - name: audio-assets
               mountPath: /data/audio-assets
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           readinessProbe:
             httpGet:
               path: /health
