@@ -28,6 +28,7 @@ infra/
     ingress.yaml
     kustomization.yaml
     loki.yaml
+    minio.yaml
     namespace.yaml
     nats.yaml
     postgres.yaml
@@ -48,6 +49,7 @@ infra/
 | `k8s/secret.yaml` | PostgreSQL 계정, `DATABASE_URL`, `AUDIT_DATABASE_URL` 등 로컬 개발용 secret입니다. |
 | `k8s/postgres.yaml` | PostgreSQL `StatefulSet`과 `LoadBalancer` Service입니다. Service port는 `15432`, container port는 `5432`입니다. |
 | `k8s/redis.yaml` | Redis `Deployment`와 Service입니다. |
+| `k8s/minio.yaml` | 로컬 개발용 S3-compatible object storage입니다. API port는 `9000`, console port는 `9001`입니다. |
 | `k8s/nats.yaml` | NATS JetStream `StatefulSet`, Service, PVC입니다. Client port는 `4222`, monitoring port는 `8222`입니다. |
 | `k8s/engine-audio-ingest.yaml` | Audio ingest engine 개발용 `Deployment`, Service, PVC입니다. Logging env, resource limit, 기본 securityContext를 포함합니다. |
 | `k8s/loki.yaml` | 로컬 개발용 Loki 단일 replica `StatefulSet`, Service, PVC입니다. HTTP port는 `3100`입니다. |
@@ -73,6 +75,7 @@ infra/
 | Promtail | DaemonSet | `grafana/promtail:3.2.1` | node-local collector |
 | PostgreSQL | StatefulSet | `postgres:17.10-alpine` | `postgres.vox2vocal.svc.cluster.local` |
 | Redis | Deployment | `redis:7.2.14-alpine3.21` | `redis.vox2vocal.svc.cluster.local` |
+| MinIO | Deployment | `quay.io/minio/minio:latest` | `minio.vox2vocal.svc.cluster.local` |
 | NATS JetStream | StatefulSet | `nats:2.11.15-alpine3.22` | `nats.vox2vocal.svc.cluster.local` |
 
 ## Internal Configuration
@@ -84,6 +87,11 @@ DATABASE_URL=postgresql://vox2vocal:vox2vocal@postgres:15432/vox2vocal?schema=us
 AUDIT_DATABASE_URL=postgresql://vox2vocal:vox2vocal@postgres:15432/vox2vocal?schema=audit
 REDIS_HOST=redis
 REDIS_PORT=6379
+OBJECT_STORAGE_ENDPOINT_URL=http://minio:9000
+OBJECT_STORAGE_PUBLIC_ENDPOINT_URL=http://localhost:19000
+OBJECT_STORAGE_REGION=us-east-1
+OBJECT_STORAGE_BUCKET=vox2vocal-audio-assets
+PRESIGNED_UPLOAD_EXPIRES_SECONDS=900
 NATS_URL=nats://nats:4222
 NATS_AUDIO_STREAM=VOX2VOCAL_AUDIO
 NATS_AUDIO_INGEST_REQUEST_SUBJECT=audio.ingest.requested
@@ -139,6 +147,7 @@ kubectl apply -k k8s
 ```bash
 kubectl get all -n vox2vocal
 kubectl get pvc -n vox2vocal
+kubectl logs -n vox2vocal job/minio-create-audio-bucket
 kubectl logs -n vox2vocal deploy/engine-audio-ingest
 kubectl logs -n vox2vocal ds/promtail
 ```
@@ -176,6 +185,15 @@ http://grafana.vox2vocal.local
 ```bash
 kubectl port-forward -n vox2vocal svc/grafana 3000:3000
 ```
+
+MinIO API와 console은 로컬 개발에서 port-forward로 엽니다.
+
+```bash
+kubectl port-forward -n vox2vocal svc/minio 19000:9000
+kubectl port-forward -n vox2vocal svc/minio 19001:9001
+```
+
+API Gateway가 발급하는 presigned upload URL은 기본적으로 `http://localhost:19000`을 사용합니다. 따라서 앱에서 직접 업로드를 테스트하려면 MinIO API port-forward가 먼저 열려 있어야 합니다.
 
 Grafana 접속 후 `Connections > Data sources > Loki`에서 datasource URL이 `http://loki:3100`인지 확인합니다.
 

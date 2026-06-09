@@ -83,7 +83,7 @@ spec:
             - name: STORAGE_BACKEND
               value: local
             - name: LOCAL_STORAGE_ROOT
-              value: /data/audio-assets
+              value: /data
             - name: FFMPEG_TIMEOUT_SECONDS
               value: "600"
             - name: CANONICAL_SAMPLE_RATE
@@ -142,7 +142,7 @@ spec:
                   key: OTEL_LOGS_EXPORTER
           volumeMounts:
             - name: audio-assets
-              mountPath: /data/audio-assets
+              mountPath: /data
           resources:
             requests:
               cpu: 250m

@@ -57,6 +57,31 @@ spec:
                 configMapKeyRef:
                   name: vox2vocal-config
                   key: USER_SERVICE_GRPC_URL
+            - name: OBJECT_STORAGE_ENDPOINT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OBJECT_STORAGE_ENDPOINT_URL
+            - name: OBJECT_STORAGE_PUBLIC_ENDPOINT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OBJECT_STORAGE_PUBLIC_ENDPOINT_URL
+            - name: OBJECT_STORAGE_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OBJECT_STORAGE_REGION
+            - name: OBJECT_STORAGE_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: OBJECT_STORAGE_BUCKET
+            - name: PRESIGNED_UPLOAD_EXPIRES_SECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: PRESIGNED_UPLOAD_EXPIRES_SECONDS
             - name: JWT_ACCESS_SECRET
               valueFrom:
                 secretKeyRef:
@@ -72,6 +97,16 @@ spec:
                 secretKeyRef:
                   name: vox2vocal-secret
                   key: REFRESH_TOKEN_HASH_SECRET
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: vox2vocal-secret
+                  key: OBJECT_STORAGE_ACCESS_KEY_ID
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: vox2vocal-secret
+                  key: OBJECT_STORAGE_SECRET_ACCESS_KEY
           readinessProbe:
             httpGet:
               path: /health
