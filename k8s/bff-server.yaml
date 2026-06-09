@@ -48,6 +48,31 @@ spec:
                 configMapKeyRef:
                   name: vox2vocal-config
                   key: API_GATEWAY_GRPC_URL
+            - name: BFF_ALLOWED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: BFF_ALLOWED_ORIGINS
+            - name: BFF_REFRESH_COOKIE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: BFF_REFRESH_COOKIE_NAME
+            - name: BFF_REFRESH_COOKIE_SECURE
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: BFF_REFRESH_COOKIE_SECURE
+            - name: BFF_REFRESH_COOKIE_SAME_SITE
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: BFF_REFRESH_COOKIE_SAME_SITE
+            - name: BFF_REFRESH_COOKIE_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: vox2vocal-config
+                  key: BFF_REFRESH_COOKIE_DOMAIN
           readinessProbe:
             httpGet:
               path: /health

@@ -6,6 +6,11 @@ metadata:
 data:
   NODE_ENV: development
   BFF_PORT: "4000"
+  BFF_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:4000,http://localhost:8081,http://localhost:18083
+  BFF_REFRESH_COOKIE_NAME: vox2vocal_refresh_token
+  BFF_REFRESH_COOKIE_SECURE: "false"
+  BFF_REFRESH_COOKIE_SAME_SITE: Lax
+  BFF_REFRESH_COOKIE_DOMAIN: ""
   API_GATEWAY_HTTP_PORT: "3001"
   USER_SERVICE_HTTP_PORT: "3002"
   WORKER_PORT: "3003"
