@@ -64,8 +64,18 @@ Grafana에서는 Loki datasource가 `http://loki:3100`으로 등록되어 있는
 
 커밋 요청이 있으면 `infra` repo 안에서만 커밋하고 푸시합니다. 커밋 메시지는 Conventional Commits 형식을 사용합니다.
 
+상세 Git 정책은 `vox2vocal-docs/workspace/git-policy.md`를 따릅니다. `infra` repo에도 동일하게 `scripts/validate-git-policy.sh`, `.githooks/commit-msg`, `.githooks/pre-push`, `.github/workflows/git-policy.yml`을 둡니다.
+
+커밋 author와 committer는 항상 `gitbyul <gitbyul@gmail.com>`이어야 합니다. local 설정과 hook 경로는 다음 명령으로 고정합니다.
+
+```bash
+scripts/install-git-policy-hooks.sh
+```
+
 ```text
 type(scope): 한글 제목
+
+- 한글 bullet body
 ```
 
 주요 type:
@@ -101,4 +111,6 @@ feat(logging): 로그 운영 MVP 인프라 추가
 - audit PostgreSQL schema 초안 문서화
 ```
 
-작업 단위가 다르면 같은 repo 안에서도 커밋을 분리합니다. 관련 없는 문서 정리나 리팩터링은 인프라 변경 커밋에 섞지 않습니다.
+본문은 필수이며 모든 줄은 `- `로 시작하는 한글 bullet이어야 합니다. 작업 단위가 다르면 같은 repo 안에서도 커밋을 분리합니다. 관련 없는 문서 정리나 리팩터링은 인프라 변경 커밋에 섞지 않습니다.
+
+local hook과 GitHub Actions `git-policy` workflow가 Git identity, 커밋 제목, 본문을 검사합니다. `main` branch는 GitHub ruleset에서 `git-policy` required check와 force push 금지를 적용합니다.
