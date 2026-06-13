@@ -125,14 +125,22 @@ minikube addons enable ingress
 
 Minikube Docker daemon에 로컬 이미지를 빌드합니다.
 
-PowerShell:
+macOS/Linux:
+
+```bash
+./scripts/build-local-app-images.sh
+```
+
+이 스크립트는 Docker Desktop 기본 bridge network에서 npm registry 요청이 timeout 되는 경우를 피하기 위해 `docker build --network=host`로 앱 이미지를 빌드하고, 고유 tag로 minikube에 로드한 뒤 deployment image를 갱신합니다.
+
+Windows PowerShell에서 수동으로 진행하는 경우:
 
 ```powershell
 minikube docker-env | Invoke-Expression
-docker build -t vox2vocal/bff-server:local ../bff-server
-docker build -t vox2vocal/api-gateway:local ../api-gateway
-docker build -t vox2vocal/user-service:local ../user-service
-docker build -t vox2vocal/worker:local ../worker
+docker build -t vox2vocal/bff-server:local ../vox2vocal-bff-server
+docker build -t vox2vocal/api-gateway:local ../vox2vocal-api-gateway
+docker build -t vox2vocal/user-service:local ../vox2vocal-user-service
+docker build -t vox2vocal/worker:local ../vox2vocal-worker
 docker build -t vox2vocal/engine-audio-ingest:local ../engine-audio-ingest
 ```
 
