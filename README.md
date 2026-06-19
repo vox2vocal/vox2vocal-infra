@@ -182,6 +182,14 @@ GraphQL endpoint:
 http://vox2vocal.local/graphql
 ```
 
+로컬 App/Web 인증 테스트에서는 ingress 대신 BFF를 Mac의 `localhost:4000`으로 열어 두는 방식을 기본으로 사용합니다.
+
+```bash
+kubectl port-forward -n vox2vocal svc/bff-server 4000:4000
+```
+
+Web 실행 URL은 `BFF_ALLOWED_ORIGINS`에 포함되어야 합니다. `localhost`와 `127.0.0.1`은 서로 다른 Origin이며, 포트가 달라도 다른 Origin으로 처리됩니다. Android emulator는 Mac host 접근에 `10.0.2.2`를 사용하거나, 기존 bundle이 `localhost:4000`을 바라보는 경우 `adb reverse tcp:4000 tcp:4000`을 설정합니다.
+
 Grafana endpoint:
 
 ```text
